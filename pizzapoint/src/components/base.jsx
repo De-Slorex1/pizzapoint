@@ -1,23 +1,56 @@
 import { Link } from "react-router-dom";
 import {motion} from 'framer-motion'
 
+const baseVariant = {
+    hover: {
+        scale: 1.2,
+        color: "blue",
+    }
+}
+
+const baseContainer = {
+    hidden: {
+        x: "100vw",
+        y: 0
+    },
+    visible: {
+        opacity: 1,
+        y: 0,
+        x: 0,
+        transition: {
+            delay: 1.2,
+            duration: 0.5
+        }
+    },
+    exit: {
+        opacity: 0.5,
+        x: "-100vw",
+        transition: {
+            delay: 0.2,
+            duration: 0.5
+        }
+    }
+}
+
 const Base = ({addBase, pizza}) => {
-    const bases = ["Classic", "Thiny & Cripsy", "Thick Crust"]
+    const bases = ["Classic Pizza", "Thiny Pizza","Cripsy Pizza", "Thick Crust Pizza"]
+
     return ( 
         <motion.div className="baseContainer"
-        initial={{opacity: 0, x: 350}}
-        animate={{opacity: 1, x: 0}}
-        tansition={{type: 'spring', stiffness: 300, delay: 0.2, duration: 2}}      
+        variants={baseContainer}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
         >
                 <h3>Choose your base</h3>
                 <ul>
                     {bases.map((base) => {
                         return (
-                            <motion.li key={base} onClick={() => addBase(base)}
-                            whileHover={{
-                                scale: 1.3,
-                                color: "blue"
-                            }}
+                            <motion.li 
+                            variants={baseVariant} 
+                            whileHover="hover" 
+                            key={base} 
+                            onClick={() => addBase(base)}
                             >
                                 <span className="">{base}</span>
                            </motion.li>
@@ -26,23 +59,22 @@ const Base = ({addBase, pizza}) => {
                 </ul>
 
             {pizza.base && (
-                <motion.div
-                    initial={{x: "-100vw", opacity: 0}}
-                    animate={{x: 0, opacity: 1}}
-                    transition={{type: 'tween', delay: 0.2, durarion: 1.5}}
-                >
+                <div>
                     <Link to='/toppings'>
                         <motion.button className="btn"
-                        whileHover={{
-                            scale: 1.1,
-                            textShadow: "2px 2px 3px rgb(0, 0, 200)",
-                            boxShadow: "2px 2px 3px rgb(0, 0, 200)"
-                        }}
+                            whileHover={{
+                                scale: [1,1.1,1,1.1,1,1.1,1,1.1,1,1.1,1,1.1,1,1.1,1,1.1,1,1.1,1,1.1,1],
+                                textShadow: "2px 2px 3px rgb(0, 0, 200)",
+                                boxShadow: "2px 2px 3px rgb(0, 0, 200)",
+                                transition: {
+                                    duration: 3,
+                                }
+                            }}
                         >
                             Next
                         </motion.button>
                     </Link>
-                </motion.div>
+                </div>
             ) }
 
             
