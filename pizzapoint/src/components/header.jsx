@@ -26,21 +26,25 @@ const imgVariant = {
     visible: {rotate: 0, opacity: 1, ease: "easeOut", transition: {delay: 0, duration: 1}}
 }
 
-
-const Header = () => {
+const Header = ({toggle, handleToggle}) => {
     return ( 
         <motion.div className='container'
         variants={navbarVariant}
         initial="hidden"
         animate="visible"
         >
-            <div className='logo'>
-                <motion.img variants={imgVariant} src={Logo} width='70px' height='70px' alt="logo" />
-            </div>
-            <div className='title'>
+            <div className='logo-title'>
+                <div className='logo'>
+                    <motion.img variants={imgVariant} src={Logo} className='img-size' alt="logo" />
+                </div>
                 <Link style={{textDecoration: "none"}} to='/'>
                     <h2>Pizzapoint</h2>
                 </Link>
+                <div className="cart-toggle">
+                    <h1 onClick={handleToggle} className="toggle"><i className="fa fa-bars"></i></h1>
+                </div>
+            </div>
+            <div className={toggle ? "title collapse" : "title" }>
                 <div className='links'>
                     <ul>
                         <Link style={{textDecoration: "none"}} to='/'>

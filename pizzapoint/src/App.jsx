@@ -10,6 +10,7 @@ import About from './components/about'
 import Contact from './components/contact'
 import {AnimatePresence} from 'framer-motion'
 import Modal from './components/modal'
+import RemoveToggle from './components/removeToggle'
 
 function App() {
 
@@ -33,9 +34,16 @@ function App() {
     setPizza({...pizza, toppings: newToppings})
   }
   
+  const [toggle, setToggle] = useState(false)
+
+  const handleToggle = () => {
+    setToggle(!toggle)
+  }
+
   return (
     <div className='bgContainer'>
-      <Header />
+      <Header toggle={toggle} handleToggle={handleToggle}/>
+      <RemoveToggle toggle={toggle} handleToggle={handleToggle}/>
       <Modal showModal={showModal} setShowModal={setShowModal} />
       <AnimatePresence onExitComplete={() => setShowModal(false)}>
         <Routes location={location} key={location.key}>

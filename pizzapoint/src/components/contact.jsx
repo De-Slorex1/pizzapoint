@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import { useFormik } from 'formik';
+import * as Yup from 'yup'
 
 const contactVariant = {
     hidden: {
@@ -64,8 +66,21 @@ const formVariant = {
     }
 }
 
-
 const Contact = () => {
+    const validationSchema = Yup.object({
+        name: Yup.string().required("Guy, you never input your name"),
+        email: Yup.string().email("You don forget to add @ to your email").required("Guy, you never input your email")
+    })
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            email: ''
+        },
+        validationSchema,
+        onSubmit: () => {
+            alert("we don receive your complain.... we go work on am asap!!!")
+        }
+    })
     return ( 
         <div className="contact-container">
             <motion.div 
@@ -83,10 +98,22 @@ const Contact = () => {
                     animate="visible"
                     >
                         <h3>Lagos State, Nigeria</h3>
-                        <p>36 Igando Lasu Main Road,<br />
-                           Lagos State Nigeria</p>
-                        <p>+234 9067643760</p>
-                        <p>pizzapoint@gmail.com</p>
+                        <p>
+                            <i>
+                                36 Igando Lasu Main Road,<br />
+                                Lagos State Nigeria
+                            </i>
+                        </p>
+                        <p>
+                            <i className="fa fa-phone">
+                                +234 9067643760
+                            </i>
+                        </p>
+                        <p>
+                            <i className="fa fa-envelope">
+                                pizzapoint@gmail.com
+                            </i>
+                        </p>
                     </motion.div>
                     <motion.div 
                     variants={secondContactVariant}
@@ -97,21 +124,35 @@ const Contact = () => {
                         <h3>Ogun State, Nigeria</h3>
                         <p>25 Fafunwa Street Obasanjo Road,<br />
                          Ogun State Nigeria</p>
-                        <p>+234 8117387119</p>
-                        <p>pizzapoint@gmail.com</p>
+                        <p>
+                            <i className="fa fa-phone">
+                                +234 8117387119
+                            </i>
+                        </p>
+                        <p>
+                            <i className="fa fa-envelope">
+                                pizzapoint@gmail.com
+                            </i>
+                        </p>
                     </motion.div>
                 </div>
             </motion.div>
             <div className="contact-form">
-                <motion.form 
+                <motion.form onSubmit={formik.handleSubmit}
                 variants={formVariant}
                 initial='hidden'
                 animate='visible'>
                     <h4>SEND US A MESSAGE</h4>
-                    <label>Name</label><br />
-                    <input type="text" /><br />
-                    <label>Email</label><br />
-                    <input type="email" /><br />
+                    <div>
+                        {formik.touched.name && formik.errors.name ? (<div className="error">{formik.errors.name}</div>) : null}
+                        <label htmlFor="name">Name</label><br />
+                        <input type="text" id="name" name="name" {...formik.getFieldProps("name")}/><br />
+                    </div>
+                    <div>
+                        {formik.touched.email && formik.errors.email ? (<div className="error">{formik.errors.email}</div>) : null}
+                        <label htmlFor="email">Email</label><br />
+                        <input type="email" id="email" name="email" {...formik.getFieldProps("email")}/><br />
+                    </div>
                     <label>Message</label><br />
                     <textarea rows="10" cols="30"></textarea>
                     <button type="submit">SEND US MESSAGE</button>
