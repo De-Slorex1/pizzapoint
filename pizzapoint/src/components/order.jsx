@@ -24,15 +24,6 @@ const containerVariant = {
         }
     }
 }
-
-const childrenVariant = {
-    hidden: {
-        opacity: 0
-    },
-    visible: {
-        opacity: 1
-    }
-}
  
 const Order = ({pizza, setShowModal}) => {
     useEffect(() => {
